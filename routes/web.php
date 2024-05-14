@@ -14,4 +14,5 @@ Route::post('/cek-login',[AuthController::class, 'cekLogin'])->name('cek-login')
 
 //admin
 Route::get('/dashboard',[DashboardController::class, 'index'])->name('dashboard');
-Route::get('/user-data',[UserController::class, 'index'])->name('user.index');
+
+Route::resource('users', UserController::class);
