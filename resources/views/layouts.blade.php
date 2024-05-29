@@ -70,15 +70,15 @@
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            <li class="nav-item active">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Wherehouse</span>
                 </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="">Data Kategori</a>
-                        <a class="collapse-item" href="">Data Produk</a>
+                        <a class="collapse-item active" href="{{ route('categories.index') }}">Data Kategori</a>
+                        <a class="collapse-item" href="{{ route('products.index') }}">Data Produk</a>
                         <a class="collapse-item" href="">Data Pesanan</a>
                     </div>
                 </div>
