@@ -21,4 +21,6 @@ Route::resource('users', UserController::class);
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
 
+Route::get('/get-products/{id}', [ProductController::class,'getProduct']);
+Route::post('/update_stok', [ProductController::class,'update_stok']);
 

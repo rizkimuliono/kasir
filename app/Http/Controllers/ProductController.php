@@ -5,6 +5,7 @@ use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use PhpParser\Node\Expr\FuncCall;
 
 class ProductController extends Controller
 {
@@ -83,6 +84,28 @@ class ProductController extends Controller
         }
         $product->delete();
         return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
+    }
+
+    public function getProduct($id){
+        $product = Product::with('category')->find($id);
+        return response()->json($product);
+    }
+
+    public function update_stok(Request $request)
+    {
+        $request->validate([
+            'stok_baru' => 'required|integer',
+        ]);
+        $id = $request->input('id');
+        $product = Product::find($id);
+        if ($product) {
+            $product->pro_stok = $product->pro_stok + $request->input('stok_baru');
+            $product->save();
+            return redirect()->route('products.index')->with('success', 'Product Stok updated successfully.');
+        } else {
+            return redirect()->route('products.index')->with('error', 'Product Stok gagal Update.');
+        }
+
     }
 }
 
