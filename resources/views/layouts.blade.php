@@ -17,7 +17,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('template/css/sb-admin-2.min.css') }}" rel="stylesheet">
-    <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+    <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
 
 </head>
 
@@ -41,10 +41,11 @@
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
+            <li class="nav-item {{ request()->is(['dashboard*']) ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('dashboard') }}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+                </a>
             </li>
 
             <!-- Divider -->
@@ -56,30 +57,30 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item {{ request()->is(['users*', 'custimers*']) ? 'active' : '' }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Master Data</span>
                 </a>
-                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="collapseTwo" class="collapse {{ request()->is(['users*', 'custimers*']) ? 'show' : '' }}" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="{{ route('users.index') }}">Data Users</a>
-                        <a class="collapse-item" href="">Data Custumers</a>
+                        <a class="collapse-item {{ request()->is('users*') ? 'active' : '' }}" href="{{ route('users.index') }}">Data Users</a>
+                        <a class="collapse-item {{ request()->is('customers*') ? 'active' : '' }}" href="">Data Custumers</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item active">
+            <li class="nav-item {{ request()->is(['categories*', 'products*', 'orders*']) ? 'active' : '' }}">
                 <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fas fa-fw fa-wrench"></i>
                     <span>Wherehouse</span>
                 </a>
-                <div id="collapseUtilities" class="collapse show" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+                <div id="collapseUtilities" class="collapse {{ request()->is(['categories*', 'products*', 'orders*']) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item active" href="{{ route('categories.index') }}">Data Kategori</a>
-                        <a class="collapse-item" href="{{ route('products.index') }}">Data Produk</a>
-                        <a class="collapse-item" href="">Data Pesanan</a>
+                        <a class="collapse-item {{ request()->is('categories*') ? 'active' : '' }}" href="{{ route('categories.index') }}">Data Kategori</a>
+                        <a class="collapse-item {{ request()->is('products*') ? 'active' : '' }}" href="{{ route('products.index') }}">Data Produk</a>
+                        <a class="collapse-item {{ request()->is('orders*') ? 'active' : '' }}" href="">Data Pesanan</a>
                     </div>
                 </div>
             </li>
