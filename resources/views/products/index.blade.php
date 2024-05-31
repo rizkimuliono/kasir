@@ -53,7 +53,7 @@
                             <td>
                                 <a href="{{ route('products.show', $product->id) }}" class="btn btn-info btn-sm">View</a>
                                 <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline-block;">
+                                <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="delete-form" style="display:inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm">Delete</button>
@@ -127,6 +127,7 @@
         $(document).ready(function() {
             $('#dataTable').DataTable();
 
+            //Modal Update Stok
             $('.view-details').on('click', function() {
                 var productId = $(this).data('id');
                 $.ajax({
@@ -147,6 +148,15 @@
                     }
                 });
             });
+
+            //Alert Delete Produk
+            $('form.delete-form').on('submit', function(event) {
+            event.preventDefault();
+            var confirmed = confirm('Anda yakin ingin hapus data produk ini ?');
+            if (confirmed) {
+                this.submit();
+            }
+        });
         });
     </script>
 @endsection
