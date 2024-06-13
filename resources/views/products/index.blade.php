@@ -7,7 +7,7 @@
 
             <a href="{{ route('products.create') }}" class="btn btn-primary btn-sm float-right" style="margin-top:-25px">Add Product</a>
 
-            <a href="" class="btn btn-success btn-sm float-right" style="margin-top:-25px; margin-right:50px;">Scan + Stok</a>
+            <a href="#" class="btn btn-success btn-sm float-right scan_modal" style="margin-top:-25px; margin-right:50px;">Scan + Stok</a>
         </div>
         <div class="card-body">
             @if ($message = Session::get('success'))
@@ -119,6 +119,34 @@
         </div>
     </div>
 
+    <!-- Modal Scan-->
+    <div class="modal fade" id="productModalScan" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalLabel">Scan Product</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Siilahkan Scan Barcode Produk Yang akan di Tambah Stok</label>
+                                <input type="text" class="form-control" id="kode_scan">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" data-id="" class="btn btn-primary view-details"> <i class="fas fa-arrow-right"></i> Selanjutnya</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('js')
@@ -129,34 +157,73 @@
 
             //Modal Update Stok
             $('.view-details').on('click', function() {
+                // Ambil nilai dari input kode_scan
+                var kodeScanValue = $('#kode_scan').val();
+
+                // Set nilai kode_scan ke data-id pada tombol yang diklik
+                $(this).data('id', kodeScanValue);
+
+                // Ambil nilai data-id dari TR
                 var productId = $(this).data('id');
+
                 $.ajax({
                     url: '/get-products/' + productId,
                     method: 'GET',
                     success: function(data) {
-                        // console.log(data.category.cat_nama);
-                        $('#pro_id').val(data.id);
-                        $('#pro_nama').text(data.pro_nama);
-                        $('#pro_deskripsi').text(data.pro_deskripsi);
-                        $('#pro_stok').val(data.pro_stok);
-                        $('#pro_harga_beli').val(data.pro_harga_beli);
-                        $('#pro_harga_jual').val(data.pro_harga_jual);
-                        $('#pro_categori_id').text(data.category.cat_nama);
-                        $('#pro_gambar').attr('src', '/storage/' + data.pro_gambar);
+                        console.log(data);
+                        if (data.id != null) {
+                            $('#pro_id').val(data.id);
+                            $('#pro_nama').text(data.pro_nama);
+                            $('#pro_deskripsi').text(data.pro_deskripsi);
+                            $('#pro_stok').val(data.pro_stok);
+                            $('#pro_harga_beli').val(data.pro_harga_beli);
+                            $('#pro_harga_jual').val(data.pro_harga_jual);
+                            $('#pro_categori_id').text(data.category.cat_nama);
+                            $('#pro_gambar').attr('src', '/storage/' + data.pro_gambar);
 
-                        $('#productModal').modal('show');
+                            $('#productModal').modal('show');
+                        } else {
+                            alert('Data Produk ini Tidak ada di database !!');
+                        }
                     }
                 });
+
+                $('#productModalScan').modal('hide');
+                $('#kode_scan').val("");
+            });
+
+            //Modal Update Stok
+            $('.scan_modal').on('click', function() {
+                $('#productModalScan').modal('show');
+            });
+
+
+            $('#productModalScan').on('shown.bs.modal', function() {
+                $('#kode_scan').focus();
             });
 
             //Alert Delete Produk
             $('form.delete-form').on('submit', function(event) {
-            event.preventDefault();
-            var confirmed = confirm('Anda yakin ingin hapus data produk ini ?');
-            if (confirmed) {
-                this.submit();
-            }
-        });
+                event.preventDefault();
+                var confirmed = confirm('Anda yakin ingin hapus data produk ini ?');
+                if (confirmed) {
+                    this.submit();
+                }
+            });
+
+            $('#kode_scan').on('input', function() {
+                var inputVal = $(this).val();
+
+                // Check if the input contains a "/"
+                if (inputVal.includes('/')) {
+                    // Split the input and get the part after the "/"
+                    var parts = inputVal.split('/');
+                    var lastPart = parts[parts.length - 1];
+
+                    // Update the input value with the last part
+                    $(this).val(lastPart);
+                }
+            });
         });
     </script>
 @endsection

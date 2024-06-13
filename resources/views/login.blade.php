@@ -58,10 +58,11 @@
                                     <form class="user" method="POST" action="{{ route('cek-login') }}">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="text" name="email" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter Username / Email">
+                                            <input type="text" name="email" value="{{  old('email') }}" class="form-control form-control-user" placeholder="Enter Username / Email">
                                         </div>
                                         <div class="form-group">
                                             <input type="password" name="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                                            12345
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
